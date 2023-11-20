@@ -155,6 +155,7 @@
             this.Controls.Add(this.label_main);
             this.Controls.Add(this.button_CloseLoginWin);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "LoginWin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "IT company login";

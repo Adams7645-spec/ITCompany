@@ -243,6 +243,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ReportCreationWin";
             this.Text = "ReportCreationWin";
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ReportCreationWin_MouseDown);

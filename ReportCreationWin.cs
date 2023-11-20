@@ -24,28 +24,6 @@ namespace ITCompany
         }
 
         private Point startPoint = new Point(0, 0);
-
-        protected override void OnMouseDown(MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                startPoint = new Point(e.X, e.Y);
-            }
-            base.OnMouseDown(e);
-        }
-
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                this.Location = new Point(
-                    (this.Location.X - startPoint.X) + e.X, (this.Location.Y - startPoint.Y) + e.Y);
-
-                this.Update();
-            }
-            base.OnMouseMove(e);
-        }
-
         private void ReportCreationWin_MouseMove(object sender, MouseEventArgs e)
         {
             if (this.Capture)
@@ -63,27 +41,44 @@ namespace ITCompany
         }
         private void button_CreateReport_Click(object sender, EventArgs e)
         {
-            try
+            var reportBoxList = new List<TextBox> 
             {
+                textBox_ReportName,
+                textBox_WorkStartDate,
+                textBox_WorkEndDate,
+                textBox_WorkTitle,
+                textBox_MainWorkSpecs,
+                textBox_AditionalSpecs,
+                textBox_CurrentStatus
+            };
+            var tempFlag = false;
+
+            foreach (var reportBox in reportBoxList)
+                if (!string.IsNullOrWhiteSpace(reportBox.Text))
+                    tempFlag = true;
+
+            if (tempFlag)
+            {
+                // Записываем созданный ниже документ в базу документов
+
+                //var query = "";
+                //DatabaseConnectionHandler.ExecuteCommand(query);
+
+                // Создаем новый отчет, прикрепляя id созданного в базе документа 
+
                 var docxTemplateGenerator = new DocxTemplateGenerator($@"E:\Workspace\Folders\{textBox_ReportName.Text}.docx");
                 docxTemplateGenerator.CreateDocument(textBox_WorkStartDate.Text,
                     textBox_WorkEndDate.Text, textBox_WorkTitle.Text, textBox_MainWorkSpecs.Text,
                     textBox_AditionalSpecs.Text, textBox_CurrentStatus.Text);
-                
-                MessageBox.Show("Document successfully created!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                
-                textBox_AditionalSpecs.Clear();
-                textBox_CurrentStatus.Clear();
-                textBox_MainWorkSpecs.Clear();
-                textBox_ReportName.Clear();
-                textBox_WorkEndDate.Clear();
-                textBox_WorkStartDate.Clear();
-                textBox_WorkTitle.Clear();
+                MessageBox.Show("Report successfully created!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            catch
+            else
             {
-                MessageBox.Show("Not all fields is entered", "Error!");
+                MessageBox.Show("Not all fields is entered", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            foreach (var reportBox in reportBoxList)
+                reportBox.Clear();
         }
     }
 }
